@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+</head>
+<body>
+   <style>
+/* General form styling */
+/* Reset some default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Header styling */
+.header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+/* Logo styling */
+.logo h1 {
+  font-size: 36px;
+  font-weight: bold;
+  color: white;
+}
+.container {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+/* Media Queries for different screen sizes */
+
+@media (min-width: 576px) {
+    .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1320px;
+    }
+}
+
+.search-form {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: block;
+    max-width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 2rem;
+}
+
+/* Grid layout for form fields */
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Mặc định là 1 cột trên các màn hình nhỏ */
+    gap: 1rem; /* Tạo khoảng cách giữa các hàng */
+}
+
+@media (min-width: 768px) {
+    .form-grid {
+        grid-template-columns: repeat(2, 1fr); /* Chuyển thành 2 cột trên màn hình lớn hơn */
+    }
+}
+
+/* Input and label styling */
+.label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #4a5568; /* Tailwind's text-gray-700 */
+    margin-bottom: 0.25rem;
+}
+
+.input {
+    width: 100%; /* Đảm bảo input chiếm hết chiều rộng của cột */
+    padding: 0.5rem 1rem;
+    border: 1px solid #cbd5e0; /* Tailwind's border-gray-300 */
+    border-radius: 0.375rem; /* Tailwind's rounded-md */
+    background-color: white;
+    outline: none;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
+}
+
+.input:focus {
+    border-color: #3182ce; /* Tailwind's focus:ring-blue-500 */
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); /* Tailwind's focus:ring effect */
+    background-color: #f7fafc; /* Tailwind's focus background */
+}
+
+/* Button styling */
+.form-button {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: flex-start; /* Canh trái */
+}
+
+.button {
+    padding: 0.5rem 1.5rem;
+    background-color: #3182ce; /* Tailwind's bg-blue-500 */
+    color: white;
+    border: none;
+    border-radius: 0.375rem; /* Tailwind's rounded-md */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #2b6cb0; /* Tailwind's hover:bg-blue-600 */
+}
+
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(66, 153, 225, 0.5); /* Tailwind's focus:ring-blue-500 */
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+}
+
+.data-table {
+    min-width: 100%;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table-header th {
+    background-color: #f3f4f6;
+    text-align: left;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #6b7280;
+    min-width: max-content;
+    white-space: nowrap; /* Ngăn văn bản xuống dòng */
+}
+
+.table-body td {
+    padding: 0.5rem;
+    font-size: 0.875rem;
+    color: #374151;
+    white-space: nowrap;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-body tr:nth-child(even) {
+    background-color: #f9fafb;
+}
+
+.sort-button {
+    background: none;
+    border: none;
+    margin-left: 0.25rem;
+    cursor: pointer;
+}
+
+.sort-button i {
+    font-size: 0.75rem;
+    color: #9ca3af;
+}
+
+.sort-button:hover i {
+    color: #374151;
+}
+
+
+</style>
+<header class="header">
+   <div class="logo">
+     <h1>Sao Kê Ủng Hộ</h1>
+   </div>
+ </header>
+<div class="container">
+   <form id="searchForm" method="GET" class="search-form">
+      <div class="form-grid">
+          <div>
+              <label for="search" class="label">Từ khoá (Tên hoặc nội dung chuyển khoản)</label>
+              <input type="text" id="search" name="search" placeholder="Search term" value="" class="input">
+          </div>
+          <div>
+              <label for="start_date" class="label">Ngày</label>
+              <input type="date" id="start_date" name="start_date" value="" class="input">
+          </div>
+      <div class="form-button">
+          <button type="submit" class="button">
+              Tìm kiếm
+          </button>
+      </div>
+   </div>
+   </form>
+
+
+   <!-- aa -->
+
+   <div class="table-container">
+      <table class="data-table">
+          <thead class="table-header">
+              <tr>
+                  <th>Ngày
+                      <button onclick="sort('Date')" class="sort-button">
+                          <i class="fas fa-sort-up"></i>
+                      </button>
+                  </th>
+                  <th>Document No</th>
+                  <th>Số tiền (VND)
+                      <button onclick="sort('Amount')" class="sort-button">
+                          <i class="fas fa-sort"></i>
+                      </button>
+                  </th>
+                  <th>Nội dung</th>
+              </tr>
+          </thead>
+          <tbody class="table-body">
+              <tr>
+                  <td>2024-09-01</td>
+                  <td>5213.45946</td>
+                  <td>50,000 ₫</td>
+                  <td>292976.010924.013647.xin cam on</td>
+              </tr>
+          </tbody>
+      </table>
+   </div>
+</div>
+
+<script>
+document.getElementById("searchForm").addEventListener("submit", function(event) {
+  event.preventDefault(); 
+
+  var searchValue = document.getElementById("search").value;
+  var startDate = document.getElementById("start_date").value;
+
+  // Kiểm tra xem người dùng đã nhập dữ liệu vào searchValue chưa
+  if (!searchValue.trim()) {
+    alert("Vui lòng nhập từ khóa tìm kiếm."); // Hiển thị thông báo
+    return; // Dừng quá trình gửi form
+  }
+
+  // Vô hiệu hóa nút và thay đổi nội dung nút
+  document.querySelector(".button").disabled = true;
+  document.querySelector(".button").innerHTML = "Đang tìm kiếm...";
+
+  // Xây dựng URL cơ bản
+  var url = `http://158.255.3.5:3000/search?q=${encodeURIComponent(searchValue)}`;
+
+  if (startDate) {
+    var formattedDate = formatDate(startDate);
+    url += `&date=${formattedDate}`;
+  }
+  
+  fetch(url)
+    .then(response => {
+        if (!response.ok) {
+          throw new Error(`Lỗi: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        populateTable(data)
+        document.querySelector(".button").disabled = false;
+        document.querySelector(".button").innerHTML = "Tìm kiếm";
+    })
+    .catch(error => {
+        console.error('Có lỗi xảy ra:', error);
+    })
+    .finally(() => {
+      document.querySelector(".button").disabled = false;
+      document.querySelector(".button").innerHTML = "Tìm kiếm";
+  });
+});
+
+
+// Helper function to format date as yyyy-mm-dd
+function formatDate(date) {
+  var d = new Date(date);
+  var year = d.getFullYear();
+  var month = (d.getMonth() + 1).toString().padStart(2, '0'); // Add leading zero to month if needed
+  var day = d.getDate().toString().padStart(2, '0'); // Add leading zero to day if needed
+  return `${year}-${month}-${day}`;
+}
+
+ var data = {
+  "results": [
+    {
+      "Date": "2024-09-07",
+      "Document No": "9915.10293",
+      "Amount": "55,000 ₫",
+      "Note": "THU PHI DICH VU SMS CHU DONG THANG 08/2024. SDT: 0904321618. So tien 55000 VND",
+      "search": "thu phi dich vu sms chu dong thang 08/2024. sdt: 0904321618. so tien 55000 vnd"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    },
+    {
+      "Date": "2024-09-07",
+      "Document No": "9915.10293",
+      "Amount": "55,000 ₫",
+      "Note": "THU PHI DICH VU SMS CHU DONG THANG 08/2024. SDT: 0904321618. So tien 55000 VND",
+      "search": "thu phi dich vu sms chu dong thang 08/2024. sdt: 0904321618. so tien 55000 vnd"
+    },
+    {
+      "Date": "2024-09-09",
+      "Document No": "5239.89747",
+      "Amount": "500,000 ₫",
+      "Note": "MBVCB.6982919995.TRUONG TIEU NGOC chuyen tien.CT tu 1023716062 TRUONG TIEU NGOC toi 0011001932418 MAT TRAN TO QUOC VN - BAN CUU TRO TW",
+      "search": "mbvcb.6982919995.truong tieu ngoc chuyen tien.ct tu 1023716062 truong tieu ngoc toi 0011001932418 mat tran to quoc vn - ban cuu tro tw"
+    }
+  ],
+  "timeTaken": "0.840612 ms"
+}
+function populateTable(data) {
+  const tableBody = document.querySelector('.table-body'); // Lấy <tbody> trong bảng
+
+  // Xóa nội dung cũ trong bảng nếu cần
+  tableBody.innerHTML = '';
+
+  // Duyệt qua mỗi mục dữ liệu và chèn vào bảng
+  data.results.forEach(item => { // Duyệt qua data.results thay vì data
+    // Tạo phần tử <tr> mới
+    const row = document.createElement('tr');
+    
+    // Tạo và chèn dữ liệu vào các ô <td>
+    const dateCell = document.createElement('td');
+    dateCell.textContent = item.Date;
+
+    const docNoCell = document.createElement('td');
+    docNoCell.textContent = item["Document No"];
+
+    const amountCell = document.createElement('td');
+    amountCell.textContent = item.Amount;
+
+    const noteCell = document.createElement('td');
+    noteCell.textContent = item.Note;
+
+    // Thêm các ô <td> vào hàng <tr>
+    row.appendChild(dateCell);
+    row.appendChild(docNoCell);
+    row.appendChild(amountCell);
+    row.appendChild(noteCell);
+
+    // Thêm hàng <tr> vào <tbody>
+    tableBody.appendChild(row);
+  });
+}
+
+populateTable(data);
+</script>
+</body>
+</html>
